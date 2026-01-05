@@ -3,15 +3,16 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Winterization Program Dashboard</title>
+    <title>IOM-DB Winterization Portal</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
     <style>
-        body { background-color: #f4f7f6; font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; }
-        .sidebar { background: #2c3e50; color: white; min-height: 100vh; padding: 20px; }
-        .card-stat { border: none; border-radius: 10px; transition: transform 0.3s; }
-        .card-stat:hover { transform: translateY(-5px); }
-        .table-container { background: white; padding: 20px; border-radius: 10px; box-shadow: 0 4px 6px rgba(0,0,0,0.1); }
-        .btn-primary { background-color: #3498db; border: none; }
+        body { background-color: #f8f9fa; }
+        .sidebar { background: #1a252f; color: white; min-height: 100vh; padding: 20px; }
+        .card-stat { border: none; border-radius: 12px; color: white; box-shadow: 0 4px 12px rgba(0,0,0,0.1); }
+        .table-container { background: white; padding: 25px; border-radius: 15px; box-shadow: 0 4px 20px rgba(0,0,0,0.05); }
+        .nav-link { color: #bdc3c7; margin-bottom: 10px; }
+        .nav-link:hover { color: white; background: rgba(255,255,255,0.1); border-radius: 5px; }
+        .status-badge { font-size: 0.8rem; padding: 5px 10px; border-radius: 20px; }
     </style>
 </head>
 <body>
@@ -19,123 +20,144 @@
 <div class="container-fluid">
     <div class="row">
         <div class="col-md-2 sidebar d-none d-md-block">
-            <h4 class="mb-4">Program Portal</h4>
-            <ul class="nav flex-column">
-                <li class="nav-item"><a class="nav-link text-white" href="#">📊 Dashboard</a></li>
-                <li class="nav-item"><a class="nav-link text-white" href="#">👥 Beneficiaries</a></li>
-                <li class="nav-item"><a class="nav-link text-white" href="#">📋 Attendance</a></li>
-                <li class="nav-item"><a class="nav-link text-white" href="#">⚙️ Settings</a></li>
-            </ul>
+            <h4 class="mb-4 text-primary">IOM-DB</h4>
+            <nav class="nav flex-column">
+                <a class="nav-link active" href="#">📊 Dashboard</a>
+                <a class="nav-link" href="#">👥 Beneficiaries</a>
+                <a class="nav-link" href="#">📍 Map View</a>
+                <a class="nav-link" href="#">🖨️ Export Reports</a>
+            </nav>
         </div>
 
         <div class="col-md-10 p-4">
             <header class="d-flex justify-content-between align-items-center mb-4">
-                <h2>Winterization Program Dashboard</h2>
-                <button class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#addModal">+ Add New Beneficiary</button>
+                <div>
+                    <h2 class="fw-bold">Winterization Kits Distribution</h2>
+                    <p class="text-muted">Khyber Pakhtunkhwa Program Overview</p>
+                </div>
+                <div class="text-end">
+                    <span class="badge bg-dark p-2">Logged in: PRDSPAK</span>
+                </div>
             </header>
 
             <div class="row mb-4">
                 <div class="col-md-3">
-                    <div class="card card-stat bg-primary text-white p-3">
-                        <h6>Total Beneficiaries</h6>
-                        <h3>1,240</h3>
+                    <div class="card card-stat bg-primary p-3">
+                        <h6>Total Records</h6>
+                        <h3>6,540</h3>
                     </div>
                 </div>
                 <div class="col-md-3">
-                    <div class="card card-stat bg-success text-white p-3">
-                        <h6>Kits Distributed</h6>
-                        <h3>856</h3>
+                    <div class="card card-stat bg-success p-3">
+                        <h6>Districts Covered</h6>
+                        <h3>Haripur / Mansehra</h3>
                     </div>
                 </div>
                 <div class="col-md-3">
-                    <div class="card card-stat bg-warning text-dark p-3">
-                        <h6>Vulnerable HHs</h6>
-                        <h3>312</h3>
+                    <div class="card card-stat bg-info p-3">
+                        <h6>Survey Tool</h6>
+                        <h3>KoboToolbox</h3>
                     </div>
                 </div>
                 <div class="col-md-3">
-                    <div class="card card-stat bg-info text-white p-3">
-                        <h6>Pending Surveys</h6>
-                        <h3>46</h3>
+                    <div class="card card-stat bg-danger p-3">
+                        <h6>Vulnerability Mode</h6>
+                        <h3>Active</h3>
                     </div>
                 </div>
             </div>
 
             <div class="table-container">
-                <div class="d-flex justify-content-between mb-3">
-                    <h5>Recent Registrations</h5>
-                    <input type="text" id="searchInput" class="form-control w-25" placeholder="Search by name or ID...">
-                </div>
-                <table class="table table-hover">
-                    <thead class="table-light">
-                        <tr>
-                            <th>Name</th>
-                            <th>Father/Husband</th>
-                            <th>CNIC/ID</th>
-                            <th>District</th>
-                            <th>Status</th>
-                            <th>Action</th>
-                        </tr>
-                    </thead>
-                    <tbody id="beneficiaryTable">
-                        <tr>
-                            <td>Hayat Khan</td>
-                            <td>Roz Uddin</td>
-                            <td>17101-1080674-3</td>
-                            <td>Mansehra</td>
-                            <td><span class="badge bg-success">Verified</span></td>
-                            <td><button class="btn btn-sm btn-outline-secondary">Edit</button></td>
-                        </tr>
-                        <tr>
-                            <td>Adam Khan</td>
-                            <td>Ghain Il Rai</td>
-                            <td>17301-2593870-3</td>
-                            <td>Charsadda</td>
-                            <td><span class="badge bg-warning">Pending</span></td>
-                            <td><button class="btn btn-sm btn-outline-secondary">Edit</button></td>
-                        </tr>
-                    </tbody>
-                </table>
-            </div>
-        </div>
-    </div>
-</div>
-
-<div class="modal fade" id="addModal" tabindex="-1">
-    <div class="modal-dialog">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h5 class="modal-title">Register New Beneficiary</h5>
-                <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
-            </div>
-            <div class="modal-body">
-                <form id="regForm">
-                    <div class="mb-3"><input type="text" class="form-control" placeholder="Full Name" required></div>
-                    <div class="mb-3"><input type="text" class="form-control" placeholder="CNIC Number" required></div>
-                    <div class="mb-3">
-                        <select class="form-select">
-                            <option>Peshawar</option>
-                            <option>Mansehra</option>
-                            <option>Charsadda</option>
-                        </select>
+                <div class="row mb-3">
+                    <div class="col-md-6">
+                        <h5>Beneficiary Master List</h5>
                     </div>
-                    <button type="submit" class="btn btn-primary w-100">Save Data</button>
-                </form>
+                    <div class="col-md-6">
+                        <input type="text" id="myInput" class="form-control" placeholder="Search by name, district or phone...">
+                    </div>
+                </div>
+                
+                <div class="table-responsive">
+                    <table class="table table-hover align-middle">
+                        <thead class="table-light">
+                            <tr>
+                                <th>HH Head Name</th>
+                                <th>District</th>
+                                <th>Tehsil/UC</th>
+                                <th>Contact Number</th>
+                                <th>HH Size</th>
+                                <th>Status</th>
+                            </tr>
+                        </thead>
+                        <tbody id="dataTable">
+                            <tr>
+                                <td>Hayat</td>
+                                <td>Mansehra</td>
+                                <td>Baffa Pakhal / Ichrian</td>
+                                <td>03080031786</td>
+                                <td>19</td>
+                                <td><span class="badge bg-success status-badge">Submitted</span></td>
+                            </tr>
+                            <tr>
+                                <td>Adam Khan</td>
+                                <td>Mansehra</td>
+                                <td>Baffa Pakhal / Ichrian</td>
+                                <td>03165175417</td>
+                                <td>4</td>
+                                <td><span class="badge bg-success status-badge">Submitted</span></td>
+                            </tr>
+                            <tr>
+                                <td>Bismillah Jan</td>
+                                <td>Charsadda</td>
+                                <td>Shabqadar / Srekh</td>
+                                <td>03141502525</td>
+                                <td>8</td>
+                                <td><span class="badge bg-success status-badge">Submitted</span></td>
+                            </tr>
+                            <tr>
+                                <td>Karimullah</td>
+                                <td>Charsadda</td>
+                                <td>Shabqadar / Srekh</td>
+                                <td>03039237482</td>
+                                <td>6</td>
+                                <td><span class="badge bg-success status-badge">Submitted</span></td>
+                            </tr>
+                            <tr>
+                                <td>Muhammad Haleem</td>
+                                <td>Haripur</td>
+                                <td>Haripur / Pandak</td>
+                                <td>3295654255</td>
+                                <td>7</td>
+                                <td><span class="badge bg-success status-badge">Submitted</span></td>
+                            </tr>
+                             <tr>
+                                <td>Shareef</td>
+                                <td>Haripur</td>
+                                <td>Haripur / Pandak</td>
+                                <td>3295654255</td>
+                                <td>8</td>
+                                <td><span class="badge bg-success status-badge">Submitted</span></td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+                <p class="text-muted small mt-2">* Showing recent records. Total database contains 6,500+ entries.</p>
             </div>
         </div>
     </div>
 </div>
 
-<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
 <script>
-    // Simple search functionality
-    document.getElementById('searchInput').addEventListener('keyup', function() {
-        let filter = this.value.toLowerCase();
-        let rows = document.querySelectorAll('#beneficiaryTable tr');
-        rows.forEach(row => {
-            row.style.display = row.innerText.toLowerCase().includes(filter) ? '' : 'none';
+    // Live Search Function
+    document.getElementById('myInput').addEventListener('keyup', function() {
+        var value = this.value.toLowerCase();
+        var rows = document.querySelectorAll('#dataTable tr');
+        rows.forEach(function(row) {
+            row.style.display = row.innerText.toLowerCase().indexOf(value) > -1 ? '' : 'none';
         });
     });
 </script>
+
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
 </body>
 </html>
